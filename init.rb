@@ -4,6 +4,7 @@ require 'shoulda'
 require 'shoulda/active_record'
 require 'shoulda/controller'
 require 'shoulda/action_mailer'
+require 'shoulda/rails_routing'
 
 if defined?(RAILS_ROOT)
   # load in the 3rd party macros from vendorized plugins and gems

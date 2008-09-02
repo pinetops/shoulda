@@ -13,6 +13,8 @@ class PostsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     @post       = Post.find(:first)
   end
+  
+  should_route_restful_resources :posts
 
   context "The public" do
     setup do
