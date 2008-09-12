@@ -51,10 +51,12 @@ extra_rdoc_files:
 - lib/shoulda/private_helpers.rb
 - lib/shoulda/proc_extensions.rb
 - lib/shoulda/rails.rb
+- lib/shoulda/tasks/list_tests.rake
+- lib/shoulda/tasks/yaml_to_shoulda.rake
+- lib/shoulda/tasks.rb
 - lib/shoulda.rb
 - README.rdoc
-- tasks/list_tests.rake
-- tasks/yaml_to_shoulda.rake
+- tasks/shoulda.rake
 files: 
 - bin/convert_to_should_syntax
 - CONTRIBUTION_GUIDELINES.rdoc
@@ -77,15 +79,16 @@ files:
 - lib/shoulda/private_helpers.rb
 - lib/shoulda/proc_extensions.rb
 - lib/shoulda/rails.rb
+- lib/shoulda/tasks/list_tests.rake
+- lib/shoulda/tasks/yaml_to_shoulda.rake
+- lib/shoulda/tasks.rb
 - lib/shoulda.rb
 - Manifest
 - MIT-LICENSE
-- rails/init.rb
 - Rakefile
 - README.rdoc
 - shoulda.gemspec
-- tasks/list_tests.rake
-- tasks/yaml_to_shoulda.rake
+- tasks/shoulda.rake
 - test/fixtures/addresses.yml
 - test/fixtures/friendships.yml
 - test/fixtures/posts.yml
