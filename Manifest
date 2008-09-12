@@ -18,11 +18,14 @@ lib/shoulda/helpers.rb
 lib/shoulda/macros.rb
 lib/shoulda/private_helpers.rb
 lib/shoulda/proc_extensions.rb
+lib/shoulda/rails.rb
 lib/shoulda.rb
 Manifest
 MIT-LICENSE
+rails/init.rb
 Rakefile
 README.rdoc
+shoulda.gemspec
 tasks/list_tests.rake
 tasks/yaml_to_shoulda.rake
 test/fixtures/addresses.yml
