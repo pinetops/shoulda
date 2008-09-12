@@ -32,6 +32,7 @@ module ThoughtBot # :nodoc:
         }.map(&:to_s)
 
         def instantiate_variables_from_assigns(*names, &blk)
+          assert @response.template, "@response.template is nil. This might mean you forgot do a get, post, put, or delete in your setup block."
           old = {}
           names = (@response.template.assigns.keys - SPECIAL_INSTANCE_VARIABLES) if names.empty?
           names.each do |name|
