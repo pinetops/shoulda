@@ -2,13 +2,15 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-# Test::Unit::UI::VERBOSE
-test_files_pattern = 'test/{unit,functional,other}/**/*_test.rb'
-Rake::TestTask.new do |t|
-  t.libs << 'lib'
-  t.pattern = test_files_pattern
-  t.verbose = false
-end
+require 'echoe'
+
+Echoe.new("shoulda") do |p|
+   p.author = "Tammer Saleh"
+   p.version = '4.1.2'
+   p.summary = "Testing made easier on the fingers and the eyes, in gem form"
+   p.url = "http://thoughtbot.com/projects/shoulda"
+   p.test_pattern = 'test/{unit,functional,other}/**/*_test.rb'
+ end
 
 Rake::RDocTask.new { |rdoc|
   rdoc.rdoc_dir = 'doc'
