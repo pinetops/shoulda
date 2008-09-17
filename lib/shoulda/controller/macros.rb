@@ -134,6 +134,37 @@ module ThoughtBot # :nodoc:
           end
         end
 
+        # Macro that creates a test asserting that the response content type was 'content_type'.
+        # Example:
+        #
+        #   should_respond_with_content_type 'application/rss+xml'
+        def should_respond_with_content_type(content_type)
+          should "respond with content type of #{content_type}" do
+            content_type = Mime::EXTENSION_LOOKUP[content_type.to_s].to_s if content_type.is_a? Symbol
+            if content_type.is_a? Regexp
+              assert_match content_type, @response.content_type, "Expected to match #{content_type} but was actually #{@response.content_type}"
+            else
+              assert_equal content_type, @response.content_type, "Expected #{content_type} but was actually #{@response.content_type}"
+            end
+          end
+        end
+
+        # Macro that creates a test asserting that a value returned from the session is correct.
+        # The given string is evaled to produce the resulting redirect path.  All of the instance variables
+        # set by the controller are available to the evaled string.
+        # Example:
+        #
+        #   should_return_from_session :user_id, '@user.id'
+        #   should_return_from_session :message, '"Free stuff"'
+        def should_return_from_session(key, expected)
+          should "return the correct value from the session for key #{key}" do
+            instantiate_variables_from_assigns do
+              expected_value = eval(expected, self.send(:binding), __FILE__, __LINE__)
+              assert_equal expected_value, session[key], "Expected #{expected_value.inspect} but was #{session[key]}"
+            end
+          end
+        end
+
         # Macro that creates a test asserting that the controller rendered the given template.
         # Example:
         #
@@ -142,6 +173,32 @@ module ThoughtBot # :nodoc:
           should "render template #{template.inspect}" do
             assert_template template.to_s
           end
+        end
+
+        # Macro that creates a test asserting that the controller rendered with the given layout.
+        # Example:
+        #
+        #   should_render_with_layout 'special'
+        def should_render_with_layout(expected_layout = 'application')
+          if expected_layout
+            should "render with #{expected_layout} layout" do
+              response_layout = @response.layout.blank? ? "" : @response.layout.split('/').last
+              assert_equal expected_layout, 
+                           response_layout, 
+                           "Expected to render with layout #{expected_layout} but was rendered with #{response_layout}"
+            end
+          else
+            should "render without layout" do
+              assert_nil @response.layout, 
+                         "Expected no layout, but was rendered using #{@response.layout}"
+            end
+          end
+        end
+
+        # Macro that creates a test asserting that the controller rendered without a layout.
+        # Same as @should_render_with_layout false@
+        def should_render_without_layout
+          should_render_with_layout nil
         end
 
         # Macro that creates a test asserting that the controller returned a redirect to the given path.
@@ -163,6 +220,44 @@ module ThoughtBot # :nodoc:
         def should_render_a_form
           should "display a form" do
             assert_select "form", true, "The template doesn't contain a <form> element"
+          end
+        end
+        
+        # Macro that creates a routing test. It tries to use the given HTTP
+        # +method+ on the given +path+, and asserts that it routes to the
+        # given +options+.
+        #
+        # If you don't specify a :controller, it will try to guess the controller
+        # based on the current test.
+        #
+        # +to_param+ is called on the +options+ given.
+        #
+        # Examples:
+        #
+        #   should_route :get, '/posts', :action => :index
+        #   should_route :post, '/posts', :controller => :posts, :action => :create
+        #   should_route :get, '/posts/1', :action => :show, :id => 1
+        #   should_route :put, '/posts/1', :action => :update, :id => "1"
+        #   should_route :delete, '/posts/1', :action => :destroy, :id => 1
+        #   should_route :get, '/posts/new', :action => :new
+        # 
+        def should_route(method, path, options)
+          unless options[:controller]
+            options[:controller] = self.name.gsub(/ControllerTest$/, '').tableize
+          end
+          options[:controller] = options[:controller].to_s
+          options[:action] = options[:action].to_s
+
+          populated_path = path.dup
+          options.each do |key, value|
+            options[key] = value.to_param if value.respond_to? :to_param
+            populated_path.gsub!(key.inspect, value.to_s)
+          end
+
+          should_name = "route #{method.to_s.upcase} #{populated_path} to/from #{options.inspect}"
+
+          should should_name do
+            assert_routing({:method => method, :path => populated_path}, options)
           end
         end
       end

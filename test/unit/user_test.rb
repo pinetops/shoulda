@@ -10,6 +10,7 @@ class UserTest < Test::Unit::TestCase
   should_have_many :friends
 
   should_have_one :address
+  should_have_one :address, :dependent => :destroy
 
   should_have_indices :email, :name, [:email, :name]
   should_have_index :age
@@ -44,4 +45,8 @@ class UserTest < Test::Unit::TestCase
   should_only_allow_numeric_values_for :ssn
 
   should_have_readonly_attributes :name
+
+  should_fail do
+    should_protect_attributes :name, :age
+  end
 end
