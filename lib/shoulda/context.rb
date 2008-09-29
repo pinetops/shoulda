@@ -1,6 +1,6 @@
 module Thoughtbot # :nodoc:
   module Shoulda
-    VERSION = '2.0.1'
+    VERSION = '2.0.2'
 
     class << self
       attr_accessor :contexts
@@ -73,7 +73,7 @@ module Thoughtbot # :nodoc:
 
     # == Before statements
     #
-    # Before statements are simply should statements that run after the current
+    # Before statements are simply should statements that run before the current
     # context's setup. These are especially useful when setting expectations.
     #
     # === Example:
@@ -93,7 +93,7 @@ module Thoughtbot # :nodoc:
     #        # normal should statement
     #        should_respond_with :success
     #
-    #        # runs before get :index
+    #        # runs before "get :index"
     #        before_should "find all users" do
     #          User.expects(:find).with(:all).returns(@users)
     #        end
