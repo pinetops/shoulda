@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
-class PrivateHelpersTest < Test::Unit::TestCase # :nodoc:
-  include ThoughtBot::Shoulda::Private
+class ProtectedHelpersTest < Test::Unit::TestCase # :nodoc:
+  include ThoughtBot::Shoulda::Protected
   context "get_options!" do
     should "remove opts from args" do
       args = [:a, :b, {}]
@@ -28,7 +28,7 @@ class PrivateHelpersTest < Test::Unit::TestCase # :nodoc:
   context "model_class" do
     should "sniff the class constant from the test class" do
       self.expects(:name).returns("SomeModelTest")
-      assert_equal SomeModel, model_class
+      assert_equal SomeModel, class_under_test
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'shoulda/private_helpers'
+require 'shoulda/protected_helpers'
 
 module ThoughtBot # :nodoc:
   module Shoulda # :nodoc:
@@ -72,9 +72,8 @@ module ThoughtBot # :nodoc:
         end
       end
 
-      private
-
-      include ThoughtBot::Shoulda::Private
+    protected
+      include ThoughtBot::Shoulda::Protected
     end
   end
 end
