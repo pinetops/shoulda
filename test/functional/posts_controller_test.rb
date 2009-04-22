@@ -1,10 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'posts_controller'
 
-# Re-raise errors caught by the controller.
-class PostsController; def rescue_action(e) raise e end; end
-
-class PostsControllerTest < Test::Unit::TestCase
+class PostsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup

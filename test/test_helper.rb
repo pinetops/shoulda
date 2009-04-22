@@ -5,6 +5,8 @@ ENV['RAILS_ENV'] = 'test'
 
 rails_root = File.dirname(__FILE__) + '/rails_root'
 
+require 'test/unit' # uhhh, yeah. do this for ruby 1.9
+require 'active_support/test_case' 
 require "#{rails_root}/config/environment.rb"
 
 # Load the testing framework
@@ -16,14 +18,14 @@ ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate("#{RAILS_ROOT}/db/migrate")
 
 # Setup the fixtures path
-Test::Unit::TestCase.fixture_path = File.join(File.dirname(__FILE__), "fixtures")
+ActiveSupport::TestCase.fixture_path = File.join(File.dirname(__FILE__), "fixtures")
 
-class Test::Unit::TestCase #:nodoc:
+class ActiveSupport::TestCase #:nodoc:
   def create_fixtures(*table_names)
     if block_given?
-      Fixtures.create_fixtures(Test::Unit::TestCase.fixture_path, table_names) { yield }
+      Fixtures.create_fixtures(ActiveSupport::TestCase.fixture_path, table_names) { yield }
     else
-      Fixtures.create_fixtures(Test::Unit::TestCase.fixture_path, table_names)
+      Fixtures.create_fixtures(ActiveSupport::TestCase.fixture_path, table_names)
     end
   end
 

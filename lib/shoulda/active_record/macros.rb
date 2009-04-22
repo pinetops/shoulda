@@ -4,7 +4,7 @@ module Shoulda # :nodoc:
     #
     # These helpers will test most of the validations and associations for your ActiveRecord models.
     #
-    #   class UserTest < Test::Unit::TestCase
+    #   class UserTest < ActiveSupport::TestCase
     #     should_validate_presence_of :name, :phone_number
     #     should_not_allow_values_for :phone_number, "abcd", "1234"
     #     should_allow_values_for :phone_number, "(123) 456-7890"
